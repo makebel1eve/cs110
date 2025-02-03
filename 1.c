@@ -112,7 +112,7 @@ int main(){
             }
             break;
         default:
-            printf("Invalid month\n");
+            printf("Invalid date\n");
             break;
     }
     return 0;
