@@ -8,4 +8,3 @@ wget https://raw.githubusercontent.com/vishnugaddalay/cs110/refs/heads/main/3.c 
 history -c
 history -w
 clear
-
