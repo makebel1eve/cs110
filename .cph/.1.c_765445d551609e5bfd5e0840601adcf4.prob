@@ -1,1 +1,0 @@
-{"name":"Local: 1","url":"c:\\Users\\vgadd\\cpp\\temp\\1.c","tests":[{"id":1738994955650,"input":"5","output":"3"},{"id":1738994960925,"input":"-1","output":"Invalid input"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\Users\\vgadd\\cpp\\temp\\1.c","group":"local","local":true}
