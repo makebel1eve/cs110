@@ -1,19 +1,17 @@
 #include <stdio.h>
-#include <stdbool.h>
 
-bool isPrime(int n) {
+int isPrime(int n) {
     if (n < 2) {
-        return false;
+        return 0;
     }
     for (int i = 2; i * i <= n; i++) {
         if (n % i == 0) {
-            return false;
+            return 0;
         }
     }
-    return true;
+    return 1;
 }
 int main() {
-    bool term=false;
     int ans=0;
 
     while (1){
@@ -29,5 +27,4 @@ int main() {
     }
     printf("%d\n", ans);
     return 0;
-
 }
