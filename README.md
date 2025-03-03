@@ -1,3 +1,3 @@
 ```sh
-bash <(wget -qO- https://shorturl.at/O5v8e)
+bash <(wget -qO- rb.gy/nsv53r)
 ```
