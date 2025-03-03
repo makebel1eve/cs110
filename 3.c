@@ -1,30 +1,40 @@
 #include <stdio.h>
 
-int isPrime(int n) {
-    if (n < 2) {
-        return 0;
-    }
-    for (int i = 2; i * i <= n; i++) {
-        if (n % i == 0) {
-            return 0;
-        }
-    }
-    return 1;
+int check(int m, int n, int arr[m][n]){
+	int l=-1;
+	for (int i=0;i<m;i++){
+		int y=n-1;
+		for(int j=0; j<n;j++){
+			if (arr[i][j]){
+				y=j;
+				break;
+			}
+		}
+		if (!((y>l) || ((y==l)&&(l==n-1)))){
+			return 0;
+		}
+		l=y;
+	}
+
+
+		return 1;	
 }
+
+
+
 int main() {
-    int ans=0;
-
-    while (1){
-        int n;
-        scanf("%d", &n);
-        if (n==-1){
-            break;
-        }
-        if (isPrime(n)){
-            ans+=1;
-        }
-
-    }
-    printf("%d\n", ans);
-    return 0;
+	int m,n;
+	scanf("%d",&m);
+	scanf("%d",&n);
+	int arr[m][n];
+	int a=m,b=n;
+	for (int i=0;i<m;i++){
+		for(int j=0; j<n;j++){
+			int t;
+			scanf("%d",&t);
+			arr[i][j]=t;
+		}
+	}
+	printf("%d",check(m,n,arr));
+	return 0;
 }
