@@ -1,40 +1,20 @@
-#include <stdio.h>
+
+#include<stdio.h>
 
 int check(int m, int n, int arr[m][n]){
-	int l=-1;
-	for (int i=0;i<m;i++){
-		int y=n;
-		for(int j=0; j<n;j++){
-			if (arr[i][j]){
-				y=j;
-				break;
-			}
-		}
-		if (!((y>l) || (y==n))){
-			return 0;
-		}
-		l=y;
-	}
-
-
-		return 1;	
+    int l=-1,y;
+    for(int i=0;i<m;l=y,i++){
+        for(y=0;y<n&& !arr[i][y];y++);
+        if(y<=l) return 0;
+    }
+    return 1;
 }
 
-
-
-int main() {
-	int m,n;
-	scanf("%d",&m);
-	scanf("%d",&n);
-	int arr[m][n];
-	int a=m,b=n;
-	for (int i=0;i<m;i++){
-		for(int j=0; j<n;j++){
-			int t;
-			scanf("%d",&t);
-			arr[i][j]=t;
-		}
-	}
-	printf("%d",check(m,n,arr));
-	return 0;
+int main(){
+    int m,n;
+    scanf("%d%d",&m,&n);
+    int arr[m][n];
+    for(int i=0;i<m;i++) for(int j=0;j<n;j++) scanf("%d",&arr[i][j]);
+    printf("%d",check(m,n,arr));
 }
+
