@@ -3,14 +3,14 @@
 int check(int m, int n, int arr[m][n]){
 	int l=-1;
 	for (int i=0;i<m;i++){
-		int y=n-1;
+		int y=n;
 		for(int j=0; j<n;j++){
 			if (arr[i][j]){
 				y=j;
 				break;
 			}
 		}
-		if (!((y>l) || ((y==l)&&(l==n-1)))){
+		if (!((y>l) || (y==n))){
 			return 0;
 		}
 		l=y;
