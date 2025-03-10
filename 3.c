@@ -1,20 +1,41 @@
+#include <stdio.h>
 
-#include<stdio.h>
+void swap(int * a, int * b) {
+    int temp = * a;
+    * a = * b;
+    * b = temp;
+}
 
-int check(int m, int n, int arr[m][n]){
-    int l=-1,y;
-    for(int i=0;i<m;l=y,i++){
-        for(y=0;y<n&& !arr[i][y];y++);
-        if(y<=l) return 0;
+void bubbleSort(int * arr, int n) {
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = 0; j < n - i - 1; j++) {
+            if (arr[j] > arr[j + 1]) {
+                swap( & arr[j], & arr[j + 1]);
+            }
+        }
     }
-    return 1;
 }
 
-int main(){
-    int m,n;
-    scanf("%d%d",&m,&n);
-    int arr[m][n];
-    for(int i=0;i<m;i++) for(int j=0;j<n;j++) scanf("%d",&arr[i][j]);
-    printf("%d",check(m,n,arr));
+void waveSort(int * arr, int n) {
+    bubbleSort(arr, n);
+    for (int i = 1; i < n; i += 2) {
+        swap( & arr[i], & arr[i - 1]);
+    }
 }
 
+int main() {
+    int n;
+    scanf("%d", & n);
+    int arr[n];
+    for (int i = 0; i < n; i++) {
+        scanf("%d", & arr[i]);
+    }
+    waveSort(arr, n);
+
+    for (int i = 0; i < n; i++) {
+        printf("%d ", arr[i]);
+    }
+    printf("\n");
+
+    return 0;
+}
