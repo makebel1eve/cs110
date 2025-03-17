@@ -1,23 +1,23 @@
-#include<stdio.h>
-void hailstoneSequence(int *num,int *steps){
-	printf("%d ",*num);
-	if(*num==1) return;
-	if(*num%2==0){
-		*num/=2;
-		(*steps)++;
-		hailstoneSequence(num,steps);
-	}
-	else{
-		*num=3*(*num)+1;
-		(*steps)++;
-		hailstoneSequence(num,steps);
-	}
+
+#include <stdio.h>
+#include <stdbool.h>
+
+bool isMatch(char *s, char *p) {
+    if (*p == '\0') return *s == '\0';
+    
+    bool firstMatch = (*s != '\0' && (*s == *p || *p == '.'));
+    
+    if (*(p + 1) == '*') {
+        return (isMatch(s, p + 2) || (firstMatch && isMatch(s + 1, p)));
+    } else {
+        return firstMatch && isMatch(s + 1, p + 1);
+    }
 }
-int main(){
-	int n;
-	scanf("%d",&n);
-	int steps=0;
-	hailstoneSequence(&n,&steps);
-	printf("\n%d",steps);
-	return 0;
+
+int main() {
+    char s[21], p[21];
+    scanf("%20s", s);
+    scanf("%20s", p);
+    printf("%d\n", isMatch(s, p));
+    return 0;
 }

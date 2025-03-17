@@ -1,41 +1,40 @@
+
 #include <stdio.h>
+#include <string.h>
 
-void swap(int * a, int * b) {
-    int temp = * a;
-    * a = * b;
-    * b = temp;
-}
-
-void bubbleSort(int * arr, int n) {
-    for (int i = 0; i < n - 1; i++) {
-        for (int j = 0; j < n - i - 1; j++) {
-            if (arr[j] > arr[j + 1]) {
-                swap( & arr[j], & arr[j + 1]);
-            }
+// Function to perform Run-Length Encoding (RLE)
+void getNextTerm(char prev[], char next[]) {
+    int len = strlen(prev), index = 0;
+    for (int i = 0; i < len; ) {
+        int count = 1;
+        while (i + 1 < len && prev[i] == prev[i + 1]) {
+            count++;
+            i++;
         }
+        index += sprintf(next + index, "%d%c", count, prev[i]);
+        i++;
     }
 }
 
-void waveSort(int * arr, int n) {
-    bubbleSort(arr, n);
-    for (int i = 1; i < n; i += 2) {
-        swap( & arr[i], & arr[i - 1]);
+// Function to compute count-and-say sequence
+void countAndSay(int n) {
+    char prev[5000] = "1";
+    char next[5000];
+    
+    for (int i = 1; i < n; i++) {
+        getNextTerm(prev, next);
+        for (int j = 0; next[j] != '\0'; j++) {
+            prev[j] = next[j];
+        }
+        prev[strlen(next)] = '\0';
     }
+    
+    printf("%s\n", prev);
 }
 
 int main() {
     int n;
-    scanf("%d", & n);
-    int arr[n];
-    for (int i = 0; i < n; i++) {
-        scanf("%d", & arr[i]);
-    }
-    waveSort(arr, n);
-
-    for (int i = 0; i < n; i++) {
-        printf("%d ", arr[i]);
-    }
-    printf("\n");
-
+    scanf("%d", &n);
+    countAndSay(n);
     return 0;
 }
