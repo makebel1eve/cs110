@@ -1,45 +1,96 @@
+#include<stdio.h>
+struct term
+{
+    int coef;
+    int exp;
+};
+struct polynomial
+{
+    struct term pol[201];
+};
+struct term add_terms(struct term term1, struct term term2){
+    struct term res;
+    res.coef=term1.coef+term2.coef;
+    res.exp=term1.exp;
+    return res; 
+}
+struct term multiply(struct term term1, struct term term2){
+    struct term res;
+    res.coef=term1.coef*term2.coef;
+    res.exp=term1.exp+term2.exp;
+    return res;
 
-#include <stdio.h>
-#include <string.h>
-
-void multiply(char* num1, char* num2, char* product) {
-    int len1 = strlen(num1);
-    int len2 = strlen(num2);
-    int result[400] = {0};
-    
-    // Edge case: if any number is "0", return "0"
-    if (num1[0] == '0' || num2[0] == '0') {
-        product[0] = '0';
-        product[1] = '\0';
-        return;
+}
+struct polynomial add(struct polynomial p1,struct polynomial p2)
+{
+    struct polynomial res;
+    for(int i=0;i<201;i++){
+        res.pol[i]=add_terms(p1.pol[i],p2.pol[i]);
     }
-    
-    // Perform multiplication digit by digit
-    for (int i = len1 - 1; i >= 0; i--) {
-        for (int j = len2 - 1; j >= 0; j--) {
-            int mul = (num1[i] - '0') * (num2[j] - '0');
-            int sum = mul + result[i + j + 1];
-            result[i + j] += sum / 10;
-            result[i + j + 1] = sum % 10;
+    return res;
+
+};
+struct polynomial mul(struct polynomial p1,struct polynomial p2){
+    struct polynomial res;
+    struct term init;
+    init.coef=0;
+    for (int i=0;i<201;i++){
+        init.exp=i;
+        res.pol[i]=init;
+    }
+    for (int i=0;i<201;i++){
+        for (int j=0;j<201;j++){
+            struct term temp=multiply(p1.pol[i],p2.pol[j]);
+            res.pol[temp.exp]=add_terms(temp,res.pol[temp.exp]);
         }
     }
-    
-    // Convert result array to string
-    int index = 0;
-    int start = (result[0] == 0) ? 1 : 0;
-    for (int i = start; i < len1 + len2; i++) {
-        product[index++] = result[i] + '0';
-    }
-    product[index] = '\0';
+    return res;
+
 }
 
-int main() {
-    char num1[201], num2[201], product[402];
-    scanf("%200s", num1);
-    scanf("%200s", num2);
-    
-    multiply(num1, num2, product);
-    printf("%s\n", product);
-    
-    return 0;
+
+int main(){
+    int n;
+    scanf("%d",&n);
+    struct polynomial x;
+    struct term init;
+    init.coef=0;
+    for (int i=0;i<201;i++){
+        init.exp=i;
+        x.pol[i]=init;
+    }
+    for (int i=0;i<n;i++){
+        struct term u;
+        scanf("%d",&u.coef);
+        scanf("%d",&u.exp);
+        x.pol[u.exp]=add_terms(x.pol[u.exp],u);
+    }
+    scanf("%d",&n);
+    struct polynomial y;
+    for (int i=0;i<201;i++){
+        init.exp=i;
+        y.pol[i]=init;
+    }
+    for (int i=0;i<n;i++){
+        struct term u;
+        scanf("%d",&u.coef);
+        scanf("%d",&u.exp);
+        y.pol[u.exp]=add_terms(y.pol[u.exp],u);
+    }
+    struct polynomial ad=add(x,y);
+    struct polynomial mull=mul(x,y);
+    for (int i=201; i>=0; i--){
+        if (ad.pol[i].coef){
+            printf("(%d,%d) ",ad.pol[i].coef,ad.pol[i].exp);
+        }
+    }
+    printf("\n");
+    for (int i=201; i>=0; i--){
+        if (mull.pol[i].coef){
+            printf("(%d,%d) ",mull.pol[i].coef,mull.pol[i].exp);
+        }
+    }
+    printf("\n");
+
 }
+

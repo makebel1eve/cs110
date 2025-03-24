@@ -1,40 +1,46 @@
-
 #include <stdio.h>
-#include <string.h>
-
-// Function to perform Run-Length Encoding (RLE)
-void getNextTerm(char prev[], char next[]) {
-    int len = strlen(prev), index = 0;
-    for (int i = 0; i < len; ) {
-        int count = 1;
-        while (i + 1 < len && prev[i] == prev[i + 1]) {
-            count++;
-            i++;
-        }
-        index += sprintf(next + index, "%d%c", count, prev[i]);
-        i++;
-    }
-}
-
-// Function to compute count-and-say sequence
-void countAndSay(int n) {
-    char prev[5000] = "1";
-    char next[5000];
-    
-    for (int i = 1; i < n; i++) {
-        getNextTerm(prev, next);
-        for (int j = 0; next[j] != '\0'; j++) {
-            prev[j] = next[j];
-        }
-        prev[strlen(next)] = '\0';
-    }
-    
-    printf("%s\n", prev);
-}
+#include<math.h>
+typedef struct {
+    int shapeType;
+    union {
+        float radius;
+        struct {
+            float length;
+            float width;
+        };
+        struct {
+            float base;
+            float height;
+        };
+    } dimensions;
+} Shape;
 
 int main() {
-    int n;
-    scanf("%d", &n);
-    countAndSay(n);
+    Shape s;
+    scanf("%d", &s.shapeType);
+    if (s.shapeType == 1) {
+        scanf("%f", &s.dimensions.radius);
+        if (s.dimensions.radius <= 0) {
+            printf("-999");
+            return 0;
+        }
+        printf("%.2f", M_PI * s.dimensions.radius * s.dimensions.radius);
+    } else if (s.shapeType == 2) {
+        scanf("%f %f", &s.dimensions.length, &s.dimensions.width);
+        if (s.dimensions.length <= 0 || s.dimensions.width <= 0) {
+            printf("-999");
+            return 0;
+        }
+        printf("%.2f", s.dimensions.length * s.dimensions.width);
+    } else if (s.shapeType == 3) {
+        scanf("%f %f", &s.dimensions.base, &s.dimensions.height);
+        if (s.dimensions.base <= 0 || s.dimensions.height <= 0) {
+            printf("-999");
+            return 0;
+        }
+        printf("%.2f", 0.5 * s.dimensions.base * s.dimensions.height);
+    } else {
+        printf("-999");
+    }
     return 0;
 }
