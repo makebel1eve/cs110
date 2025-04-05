@@ -1,46 +1,69 @@
 #include <stdio.h>
-#include<math.h>
-typedef struct {
-    int shapeType;
-    union {
-        float radius;
-        struct {
-            float length;
-            float width;
-        };
-        struct {
-            float base;
-            float height;
-        };
-    } dimensions;
-} Shape;
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+
+#define MAX_WORDS 1000
+#define MAX_LENGTH 100
+
+void trim(char *str) {
+    int start = 0;
+    while (isspace((unsigned char)str[start])) start++;
+
+    int end = strlen(str) - 1;
+    while (end >= start && isspace((unsigned char)str[end])) end--;
+
+    int i, j = 0;
+    for (i = start; i <= end; i++) {
+        str[j++] = str[i];
+    }
+    str[j] = '\0';
+}
+
+int compare(const void *a, const void *b) {
+    return strcmp(*(char **)a, *(char **)b);
+}
+
+int is_duplicate(char **words, int count, char *word) {
+    for (int i = 0; i < count; i++) {
+        if (strcmp(words[i], word) == 0) {
+            return 1;
+        }
+    }
+    return 0;
+}
 
 int main() {
-    Shape s;
-    scanf("%d", &s.shapeType);
-    if (s.shapeType == 1) {
-        scanf("%f", &s.dimensions.radius);
-        if (s.dimensions.radius <= 0) {
-            printf("-999");
-            return 0;
-        }
-        printf("%.2f", M_PI * s.dimensions.radius * s.dimensions.radius);
-    } else if (s.shapeType == 2) {
-        scanf("%f %f", &s.dimensions.length, &s.dimensions.width);
-        if (s.dimensions.length <= 0 || s.dimensions.width <= 0) {
-            printf("-999");
-            return 0;
-        }
-        printf("%.2f", s.dimensions.length * s.dimensions.width);
-    } else if (s.shapeType == 3) {
-        scanf("%f %f", &s.dimensions.base, &s.dimensions.height);
-        if (s.dimensions.base <= 0 || s.dimensions.height <= 0) {
-            printf("-999");
-            return 0;
-        }
-        printf("%.2f", 0.5 * s.dimensions.base * s.dimensions.height);
-    } else {
-        printf("-999");
+    FILE *infile = fopen("input.txt", "r");
+    FILE *outfile = fopen("output.txt", "w");
+
+    if (!infile || !outfile) {
+        return 1;
     }
+
+    char line[MAX_LENGTH];
+    char *words[MAX_WORDS];
+    int count = 0;
+
+    while (fgets(line, sizeof(line), infile)) {
+        trim(line);
+        if (strlen(line) == 0) continue;
+
+        if (!is_duplicate(words, count, line)) {
+            words[count] = malloc(strlen(line) + 1);
+            strcpy(words[count], line);
+            count++;
+        }
+    }
+
+    qsort(words, count, sizeof(char *), compare);
+
+    for (int i = 0; i < count; i++) {
+        fprintf(outfile, "%s\n", words[i]);
+        free(words[i]);
+    }
+
+    fclose(infile);
+    fclose(outfile);
     return 0;
 }
